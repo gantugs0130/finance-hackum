@@ -1,0 +1,12 @@
+{
+  "name": "finance-hackum",
+  "displayName": "finance-hackum",
+  "expo": {
+    "name": "finance-hackum",
+    "slug": "finance-hackum",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
