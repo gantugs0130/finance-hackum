@@ -41,3 +41,5 @@ export const RenderList = ({headerText, isLoading, list}) => {
       </View>
     </View>)
 }
+
+export const backUrl = 'http://192.168.1.6:3000';

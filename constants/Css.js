@@ -39,6 +39,14 @@ export const Css = {
     height: 40,
     justifyContent: 'center',
     alignItems: 'center'
-  }
-
+  },
+  wrapper: {
+    flex: 1,
+    position: 'relative',
+    backgroundColor: colors.white,
+  },
+  headerWrapper: {
+    width: '100%',
+    paddingVertical: 25,
+  },
 }

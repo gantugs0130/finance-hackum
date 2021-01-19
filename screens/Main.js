@@ -1,64 +1,50 @@
-import React, {useEffect} from 'react';
-import {StyleSheet, Text, View, ScrollView, RefreshControl, SafeAreaView, ActivityIndicator} from 'react-native';
-import ListItem from "../components/ListItem"
+import React from 'react';
+import {
+  StyleSheet,
+  View,
+} from 'react-native';
 import {colors} from "../constants/Colors";
-import axios from "axios";
-import {formatMoney, RenderList, RenderListView} from "../constants/Functions";
-import {Css} from "../constants/Css";
+import {Home} from "./Home";
+import expense from "./Expense";
+import {createMaterialTopTabNavigator} from "@react-navigation/material-top-tabs";
+import {Income} from "./Income";
 
-export default function main() {
-  const [todayList, setTodayList] = React.useState([]);
-  const [otherList, setOtherList] = React.useState([]);
-  const [balance, setBalance] = React.useState(0);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const [refreshing, setRefreshing] = React.useState(false);
-
-  const getList = () => {
-    setIsLoading(true);
-    Promise.all([axios.get('http://192.168.1.6:3000/list/today'),
-      axios.get('http://192.168.1.6:3000/list/other'),
-      axios.get('http://192.168.1.6:3000/list/balance')]).then(values => {
-      setTodayList(values[0].data);
-      setOtherList(values[1].data);
-      setBalance(values[2].data?.balance);
-      setIsLoading(false);
-      setRefreshing(false);
-    })
-  }
-
-  useEffect(() => {
-    getList();
-  }, [refreshing])
-
-  const onRefresh = () => {
-    setRefreshing(true);
-  }
+export const Main = () => {
+  const Tab = createMaterialTopTabNavigator();
   return (
-    <View style={Css.container}>
-      <View style={styles.header}>
-        <Text style={Css.inactiveText}>Таны хэтэвчинд:</Text>
-        <Text style={styles.amount}>{formatMoney(balance, 0)}</Text>
-      </View>
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
-        <RenderList headerText={'Өнөөдөр'} isLoading={isLoading} list={todayList}/>
-        <RenderList headerText={'Бусад'} isLoading={isLoading} list={otherList}/>
-      </ScrollView>
+    <View style={{flex: 1, backgroundColor:colors.white}}>
+      <Tab.Navigator
+        tabBarOptions={{
+          style: styles.navigation,
+          activeTintColor: colors.dark,
+          inactiveTintColor: colors.white30,
+          indicatorStyle: {
+            width: 50,
+            left: '8.5%',
+            backgroundColor: colors.green
+          },
+          labelStyle: {
+            fontSize: 16,
+            fontWeight: '100',
+            textTransform: 'none',
+          },
+        }}
+      >
+        <Tab.Screen name="Үлдэгдэл" component={Home}/>
+        <Tab.Screen name="Орлого" component={Income}/>
+        <Tab.Screen name="Зарлага" component={expense}/>
+      </Tab.Navigator>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  amount: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: colors.dark,
-    lineHeight: 33
-  },
-  header: {
-    height: 90,
+  navigation: {
+    backgroundColor: colors.white20,
+    borderRadius: 15,
+    height: 61,
     justifyContent: 'center',
-    alignItems: 'center'
+    marginHorizontal: 25,
+    elevation: 0
   },
 });
