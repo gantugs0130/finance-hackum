@@ -32,20 +32,20 @@ export const Profile = ({navigation}) => {
         skipBackup: true
       }
     };
-    ImagePicker.launchImageLibrary(options, response => {
-      if (response.didCancel) {
-        console.log('User cancelled photo picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        let source = { uri: response.uri };
-
-        // ADD THIS
-        // setImageSource(source.uri);
-      }
-    });
+    // ImagePicker.launchImageLibrary(options, response => {
+    //   if (response.didCancel) {
+    //     console.log('User cancelled photo picker');
+    //   } else if (response.error) {
+    //     console.log('ImagePicker Error: ', response.error);
+    //   } else if (response.customButton) {
+    //     console.log('User tapped custom button: ', response.customButton);
+    //   } else {
+    //     let source = { uri: response.uri };
+    //
+    //     // ADD THIS
+    //     // setImageSource(source.uri);
+    //   }
+    // });
   }
   const clickEditPin = () => {
     console.log('edit pin');
@@ -77,7 +77,8 @@ export const Profile = ({navigation}) => {
       </View>
       <View style={styles.profileWrapper}>
         <View style={styles.profile}>
-          <Text style={{color: colors.green, fontWeight: '800', fontSize: 24}}>80</Text>
+          <Text
+            style={{color: colors.green, fontWeight: '800', fontSize: 24}}>{auth.phone.toString().substr(6, 2)}</Text>
           <View style={styles.editProfile}>
             <IconWithButton
               onPress={clickEditProfile}
@@ -87,7 +88,7 @@ export const Profile = ({navigation}) => {
           </View>
         </View>
         <View style={{flex: 1, paddingLeft: 16}}>
-          <CustomText text={80500803} icon={'call-outline'}/>
+          <CustomText text={auth.phone} icon={'call-outline'}/>
         </View>
       </View>
       <View style={{position: 'relative'}}>

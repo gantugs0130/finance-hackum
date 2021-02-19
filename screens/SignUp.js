@@ -14,7 +14,6 @@ export const SignUp = ({navigation}) => {
   const [loader, setLoader] = useState(false);
   return (
     <View style={styles.wrapper}>
-      <HeaderHackum/>
       <Formik
         initialValues={{phone: '', pin: '', pin2: ''}}
         onSubmit={values => {

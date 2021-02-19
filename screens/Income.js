@@ -2,9 +2,10 @@ import React, {useEffect} from 'react';
 import {StyleSheet, Text, View, ScrollView, RefreshControl, SafeAreaView, ActivityIndicator} from 'react-native';
 import {colors} from "../constants/Colors";
 import axios from "axios";
-import {formatMoney, RenderList, RenderListView} from "../constants/Functions";
+import {backUrl, RenderList} from "../constants/Functions";
 import {Css} from "../constants/Css";
 import {useSelector} from "react-redux";
+import {formatMoney} from "../constants/Format";
 
 export const Income = () => {
   const [list, setList] = React.useState([]);
@@ -15,18 +16,18 @@ export const Income = () => {
   const getList = () => {
     setIsLoading(true);
     if (auth.group && auth.group !== '') {
-      Promise.all([axios.get('http://192.168.1.6:3000/list?type=0&group=' + auth.group),
-        axios.get('http://192.168.1.6:3000/list/lastMonths?type=0&month=5&group=' + auth.group),
-        axios.get('http://192.168.1.6:3000/list/lastMonths?type=0&month=0&&group=' + auth.group)]).then(values => {
+      Promise.all([axios.get(backUrl+'/list?type=0&group=' + auth.group),
+        axios.get(backUrl+'/list/lastMonths?type=0&month=5&group=' + auth.group),
+        axios.get(backUrl+'/list/lastMonths?type=0&month=0&&group=' + auth.group)]).then(values => {
         setList(values[0].data);
         setStat({lastMonth: values[2].data.amount, lastSixMonth: values[1].data.amount});
         setIsLoading(false);
         setRefreshing(false);
       })
     } else {
-      Promise.all([axios.get('http://192.168.1.6:3000/list?type=0&phone=' + auth.phone),
-        axios.get('http://192.168.1.6:3000/list/lastMonths?type=0&month=5&phone=' + auth.phone),
-        axios.get('http://192.168.1.6:3000/list/lastMonths?type=0&month=0&&phone=' + auth.phone)]).then(values => {
+      Promise.all([axios.get(backUrl+'/list?type=0&phone=' + auth.phone),
+        axios.get(backUrl+'/list/lastMonths?type=0&month=5&phone=' + auth.phone),
+        axios.get(backUrl+'/list/lastMonths?type=0&month=0&&phone=' + auth.phone)]).then(values => {
         setList(values[0].data);
         setStat({lastMonth: values[2].data.amount, lastSixMonth: values[1].data.amount});
         setIsLoading(false);

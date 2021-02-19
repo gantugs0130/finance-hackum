@@ -9,7 +9,9 @@ const authReducer = (state = initialState, action) => {
     case 'LOGOUT':
       return {
         ...state,
-        login: false
+        login: false,
+        phone: '',
+        group: ''
       };
     case 'LOGIN':
       return {

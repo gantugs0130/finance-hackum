@@ -21,9 +21,6 @@ export const MainTabNavigation = (navigation) => {
   }
   return (
     <View style={{flex: 1, backgroundColor: colors.white}}>
-      <View style={{paddingHorizontal: 25}}>
-        <HeaderHackum/>
-      </View>
       <Modal
         style={{
           margin: 0,

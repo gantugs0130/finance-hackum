@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Init} from "./screens/Init";
@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Provider, useSelector} from 'react-redux';
 import {setAuthGroup, setLoginState} from "./redux/actions/Auth";
 import store from "./redux/store/configureStore";
+import HeaderHackum from "./components/HeaderHackum";
 
 
 export default function App() {
@@ -29,6 +30,9 @@ export default function App() {
   const Stack = createStackNavigator();
   return (
     <NavigationContainer>
+      <View style={{paddingHorizontal: 25}}>
+        <HeaderHackum text={auth.group || 'Hackum'}/>
+      </View>
       <Stack.Navigator
         screenOptions={{
           headerShown: false

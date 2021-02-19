@@ -2,10 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, ScrollView, RefreshControl, BackHandler} from 'react-native';
 import {colors} from "../constants/Colors";
 import axios from "axios";
-import {formatMoney, RenderList, RenderListView} from "../constants/Functions";
+import {backUrl, RenderList} from "../constants/Functions";
 import {Css} from "../constants/Css";
-import HeaderHackum from "../components/HeaderHackum";
 import {useSelector} from "react-redux";
+import {formatMoney} from "../constants/Format";
 
 export const Home = () => {
   const [todayList, setTodayList] = useState([]);
@@ -18,9 +18,9 @@ export const Home = () => {
     setIsLoading(true);
     if (auth.group && auth.group !== '') {
       Promise.all([
-        axios.get('http://192.168.1.6:3000/list/today?group=' + auth.group),
-        axios.get('http://192.168.1.6:3000/list/other?group=' + auth.group),
-        axios.get('http://192.168.1.6:3000/group?title=' + auth.group)]).then(values => {
+        axios.get(backUrl+'/list/today?group=' + auth.group),
+        axios.get(backUrl+'/list/other?group=' + auth.group),
+        axios.get(backUrl+'/group?title=' + auth.group)]).then(values => {
         setTodayList(values[0].data);
         setOtherList(values[1].data);
         setBalance(values[2].data?.balance);
@@ -29,9 +29,9 @@ export const Home = () => {
       })
     } else {
       Promise.all([
-        axios.get('http://192.168.1.6:3000/list/today?phone='+auth.phone),
-        axios.get('http://192.168.1.6:3000/list/other?phone='+auth.phone),
-        axios.get('http://192.168.1.6:3000/user?phone=' + auth.phone)]).then(values => {
+        axios.get(backUrl+'/list/today?phone='+auth.phone),
+        axios.get(backUrl+'/list/other?phone='+auth.phone),
+        axios.get(backUrl+'/user?phone=' + auth.phone)]).then(values => {
         setTodayList(values[0].data);
         setOtherList(values[1].data);
         setBalance(values[2].data?.balance);

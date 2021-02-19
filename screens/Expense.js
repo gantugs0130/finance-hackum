@@ -3,24 +3,37 @@ import {StyleSheet, Text, View, ScrollView, RefreshControl, SafeAreaView, Activi
 import {colors} from "../constants/Colors";
 import {Css} from "../constants/Css";
 import axios from "axios";
-import {formatMoney, RenderList, RenderListView} from "../constants/Functions";
+import {backUrl, RenderList} from "../constants/Functions";
+import {formatMoney} from "../constants/Format";
+import {useSelector} from "react-redux";
 
 export default function expense() {
   const [list, setList] = React.useState([]);
   const [stats, setStat] = React.useState({lastMonth: 0, lastSixMonth: 0});
   const [isLoading, setIsLoading] = React.useState(false);
   const [refreshing, setRefreshing] = React.useState(false);
+  const auth = useSelector((state) => state.auth);
   const getList = () => {
     setIsLoading(true);
-    Promise.all([
-      axios.get('http://192.168.1.6:3000/list?type=1'),
-      axios.get('http://192.168.1.6:3000/list/lastMonths?type=1&month=5'),
-      axios.get('http://192.168.1.6:3000/list/lastMonths?type=1&month=0')]).then(values => {
-      setList(values[0].data);
-      setStat({lastMonth: values[1].data.amount, lastSixMonth: values[2].data.amount});
-      setIsLoading(false);
-      setRefreshing(false);
-    })
+    if (auth.group && auth.group !== '') {
+      Promise.all([axios.get(backUrl+'/list?type=1&group=' + auth.group),
+        axios.get(backUrl+'/list/lastMonths?type=1&month=5&group=' + auth.group),
+        axios.get(backUrl+'/list/lastMonths?type=1&month=0&&group=' + auth.group)]).then(values => {
+        setList(values[0].data);
+        setStat({lastMonth: values[2].data.amount, lastSixMonth: values[1].data.amount});
+        setIsLoading(false);
+        setRefreshing(false);
+      })
+    } else {
+      Promise.all([axios.get(backUrl+'/list?type=1&phone=' + auth.phone),
+        axios.get(backUrl+'/list/lastMonths?type=1&month=5&phone=' + auth.phone),
+        axios.get(backUrl+'/list/lastMonths?type=1&month=0&&phone=' + auth.phone)]).then(values => {
+        setList(values[0].data);
+        setStat({lastMonth: values[2].data.amount, lastSixMonth: values[1].data.amount});
+        setIsLoading(false);
+        setRefreshing(false);
+      })
+    }
   }
   useEffect(() => {
     getList();

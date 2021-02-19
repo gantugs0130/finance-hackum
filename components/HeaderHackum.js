@@ -3,10 +3,10 @@ import {StyleSheet, Text, View} from 'react-native';
 import {colors} from "../constants/Colors";
 import {Css} from "../constants/Css";
 
-export default function HeaderHackum() {
+export default function HeaderHackum({text}) {
   return (
     <View style={Css.headerWrapper}>
-      <Text style={styles.headerText}>Hackum</Text>
+      <Text style={styles.headerText}>{text}</Text>
       <Text style={styles.subTitle}>Хувийн санхүүч апп</Text>
     </View>
   );

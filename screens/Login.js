@@ -21,7 +21,6 @@ export const Login = ({navigation}) => {
   }
   return (
     <View style={styles.wrapper}>
-      <HeaderHackum/>
       <Formik
         initialValues={{phone: '', pin: ''}}
         onSubmit={values => {
